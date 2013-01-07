@@ -1,0 +1,132 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/parser.css" />
+		<!-- Utility script file -->
+		<script type="text/javascript" src="scripts/utils.js"></script>
+		<!-- Globals file -->
+		<script type="text/javascript" src="scripts/globals.js"></script>
+		<!-- Main program script files -->
+		<script type="text/javascript" src="scripts/main.js"></script>
+		<script type="text/javascript" src="scripts/lexer.js"></script>
+		<script type="text/javascript" src="scripts/parser.js"></script>
+		<!-- Messager script files -->
+		<script type="text/javascript" src="scripts/bones.js"></script>
+		<script type="text/javascript" src="scripts/cookie.js"></script>
+		<script type="text/javascript" src="scripts/pirate.js"></script>
+		<script type="text/javascript" src="scripts/yoda.js"></script>
+		<title>
+			Compiler Design Project 1 by Neal Tanner
+		</title>
+	</head>
+	<body background="images/img22.jpg">
+		<!--
+			I'll never tell you where the body is... Oh, wait.  Crap.
+		-->
+		<table>
+			<tr>
+				<td>
+					<span class="header">
+						Grammar
+					</span>
+					<div id="grammar_list">
+						Program ::== Statement $
+						<br />
+						Statement ::== P ( Expr )
+						<br />
+						Statement ::== Id = Expr
+						<br />
+						Statement ::== VarDecl
+						<br />
+						Statement ::== { StatementList }
+						<br />
+						StatementList ::== Statement StatementList
+						<br />
+						StatementList ::== &#949;
+						<br />
+						Expr ::== IntExpr
+						<br />
+						Expr ::== CharExpr
+						<br />
+						Expr ::== Id
+						<br />
+						IntExpr ::== Digit Op Expr
+						<br />
+						IntExpr::== Digit
+						<br />
+						CharExpr ::== " CharList "
+						<br />
+						CharList ::== Char CharList
+						<br />
+						CharList ::== &#949;
+						<br />
+						VarDecl ::== Type Id
+						<br />
+						Type ::== int | char
+						<br />
+						Id ::== Char
+						<br />
+						Digit ::== 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+						<br />
+						Char ::== a | b | c ... | z
+						<br />
+						Op ::== + | -
+					</div>
+				</td>
+				<td>
+					<span class="header">
+						Expression to evaluate
+					</span>
+					<br />
+					<textarea id="input" cols="35" rows="5"></textarea>
+					<br />
+					<br />
+					<span class="header">
+						Please select a parse message style
+					</span>
+					<br />
+					<select id="message_style">
+						<option value="bones">
+							Bones
+						</option>
+						<option value="cookie">
+							Cookie Monster
+						</option>
+						<option value="pirate">
+							Pirate
+						</option>
+						<option value="yoda">
+							Yoda
+						</option>
+					</select>
+					<br />
+					<br />
+					<input type="button" id="symbol_button" onClick="displaySymbol();"
+						value="Generate Symbol Table" />
+					<input type="button" id="parse_button" onClick="startParse();"
+						value="Parse" />
+					<br />
+					<br />
+					<span class="header">
+						Output
+					</span>
+					<div id="outputDiv">
+
+					</div>
+				</td>
+				<td>
+					<span class="header">
+						Verbose Output
+					</span>
+					<div id="verboseOutputDiv">
+					</div>
+					<br />
+					<span class="header">
+						Machine Code
+					</span>
+					<div id="codeOutputDiv">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
