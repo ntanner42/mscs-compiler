@@ -5,17 +5,23 @@
 		<script type="text/javascript" src="scripts/utils.js"></script>
 		<!-- Globals file -->
 		<script type="text/javascript" src="scripts/globals.js"></script>
+		<!-- I/O file -->
+		<script type="text/javascript" src="scripts/io.js"></script>
 		<!-- Main program script files -->
 		<script type="text/javascript" src="scripts/main.js"></script>
 		<script type="text/javascript" src="scripts/lexer.js"></script>
+		<script type="text/javascript" src="scripts/token.js"></script>
 		<script type="text/javascript" src="scripts/parser.js"></script>
+		<!-- Tree script files -->
+		<script type="text/javascript" src="scripts/tree.js"></script>
 		<!-- Messager script files -->
 		<script type="text/javascript" src="scripts/bones.js"></script>
 		<script type="text/javascript" src="scripts/cookie.js"></script>
 		<script type="text/javascript" src="scripts/pirate.js"></script>
+		<script type="text/javascript" src="scripts/regular.js"></script>
 		<script type="text/javascript" src="scripts/yoda.js"></script>
 		<title>
-			Compiler Design Project 1 by Neal Tanner
+			Compiler Design Project 2 by Neal Tanner
 		</title>
 	</head>
 	<body background="images/img22.jpg">
@@ -25,13 +31,17 @@
 		<table>
 			<tr>
 				<td>
-					<span class="header">
+					<span class="compiler_compiler_header_section_section">
 						Grammar
 					</span>
 					<div id="grammar_list">
 						Program ::== Statement $
 						<br />
-						Statement ::== P ( Expr )
+						Statement ::== while ( BoolExpr ) { StatementList }
+						<br />
+						Statement ::== if ( BoolExpr ) { StatementList }
+						<br />
+						Statement ::== print ( Expr )
 						<br />
 						Statement ::== Id = Expr
 						<br />
@@ -45,42 +55,58 @@
 						<br />
 						Expr ::== IntExpr
 						<br />
-						Expr ::== CharExpr
+						Expr ::== StringExpr
 						<br />
 						Expr ::== Id
+						<br />
+						Expr ::== Logical
+						<br />
+						BoolExpr ::== BoolArg BoolOp BoolArg
 						<br />
 						IntExpr ::== Digit Op Expr
 						<br />
 						IntExpr::== Digit
 						<br />
-						CharExpr ::== " CharList "
+						StringExpr ::== " CharList "
 						<br />
 						CharList ::== Char CharList
+						<br />
+						CharList ::== Space CharList
 						<br />
 						CharList ::== &#949;
 						<br />
 						VarDecl ::== Type Id
 						<br />
-						Type ::== int | char
+						BoolArg ::== Id | Digit
+						<br />
+						Type ::== int | char | bool
 						<br />
 						Id ::== Char
 						<br />
-						Digit ::== 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-						<br />
 						Char ::== a | b | c ... | z
 						<br />
+						Space ::== the <em>space</em> character
+						<br />
+						Digit ::== 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+						<br />
+						BoolOp ::== == | !=
+						<br />
 						Op ::== + | -
+						<br />
+						Logical ::== false | true
+						<br />
+						Comment ::== /* ... */
 					</div>
 				</td>
 				<td>
-					<span class="header">
+					<span class="compiler_header_section">
 						Expression to evaluate
 					</span>
 					<br />
-					<textarea id="input" cols="35" rows="5"></textarea>
+					<textarea id="compilerInput" cols="35" rows="5"></textarea>
 					<br />
 					<br />
-					<span class="header">
+					<span class="compiler_header_section">
 						Please select a parse message style
 					</span>
 					<br />
@@ -94,6 +120,9 @@
 						<option value="pirate">
 							Pirate
 						</option>
+						<option selected="selected" value="regular">
+							Regular
+						</option>
 						<option value="yoda">
 							Yoda
 						</option>
@@ -106,24 +135,24 @@
 						value="Parse" />
 					<br />
 					<br />
-					<span class="header">
+					<span class="compiler_header_section">
 						Output
 					</span>
-					<div id="outputDiv">
+					<div id="compilerOutputDiv">
 
 					</div>
 				</td>
 				<td>
-					<span class="header">
+					<span class="compiler_header_section">
 						Verbose Output
 					</span>
-					<div id="verboseOutputDiv">
+					<div id="compilerVerboseOutputDiv">
 					</div>
 					<br />
-					<span class="header">
+					<span class="compiler_header_section">
 						Machine Code
 					</span>
-					<div id="codeOutputDiv">
+					<div id="compilerCodeOutputDiv">
 					</div>
 				</td>
 			</tr>

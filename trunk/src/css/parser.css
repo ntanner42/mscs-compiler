@@ -5,7 +5,7 @@ body
 	background-color: 	#C8C8C8;
 }
 
-.header
+.compiler_header_section
 {
 	color:			white;
 	font-weight: 	bold;
@@ -27,7 +27,7 @@ body
 	background: 	#C8C8C8;
 }
 
-#input
+#compilerInput
 {
 	border-left:	2px solid #000000;
 	border-top:		2px solid #000000;
@@ -35,19 +35,7 @@ body
 	border-bottom:	3px solid #C1CCD9;
 }
 
-#outputDiv
-{
-	border-left:	2px solid #000000;
-	border-top:		2px solid #000000;
-	border-right:	3px solid #C1CCD9;
-	border-bottom:	3px solid #C1CCD9;
-	height: 300px;
-	width: 300px;
-	background: white;
-	overflow: scroll;
-}
-
-#verboseOutputDiv
+#compilerOutputDiv
 {
 	border-left:	2px solid #000000;
 	border-top:		2px solid #000000;
@@ -59,7 +47,19 @@ body
 	overflow: scroll;
 }
 
-#codeOutputDiv
+#compilerVerboseOutputDiv
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+	height: 300px;
+	width: 300px;
+	background: white;
+	overflow: scroll;
+}
+
+#compilerCodeOutputDiv
 {
 	border-left:	2px solid #000000;
 	border-top:		2px solid #000000;

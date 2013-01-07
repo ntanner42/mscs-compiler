@@ -1,43 +1,7 @@
 /*
 	Filename:	main.js
-	Function:	Contains the functions to start the parse
-				and handle output.
+	Function:	Contains the functions to start the parse.
 */
-
-function clearCodeOutput()
-{
-	document.getElementById("codeOutputDiv").innerHTML = "";
-}//end clearCodeOutput
-
-function clearOutput()
-{
-	document.getElementById("outputDiv").innerHTML = "";
-}//end clearOutput
-
-function clearVerboseOutput()
-{
-	document.getElementById("verboseOutputDiv").innerHTML = "";
-}//end clearVerboseOutput
-
-function displayCodeOutput(outputString)
-{
-	document.getElementById("codeOutputDiv").innerHTML += outputString;
-}//end displayCodeOutput
-
-function displayOutput(outputString)
-{
-	document.getElementById("outputDiv").innerHTML += outputString;
-}//end displayOutput
-
-function displayVerboseOutput(outputString)
-{
-	document.getElementById("verboseOutputDiv").innerHTML += outputString;
-}//end displayOutput
-
-function displaySymbol()
-{
-	window.open("images/background.jpg");
-}//end displaySymbol
 
 function resetCodeGenerator()
 {
@@ -95,13 +59,17 @@ function selectMessager()
 	{
 		_Messager = new Pirate();
 	}//end else if
+	else if(messagerSelection == "regular")
+	{
+		_Messager = new Regular();
+	}//end else if
 	else if(messagerSelection == "yoda")
 	{
 		_Messager = new Yoda();
 	}//end else if
 	else
 	{
-		_Messager = new Yoda();
+		_Messager = new Regular();
 	}//end else
 }//end selectMessager
 
