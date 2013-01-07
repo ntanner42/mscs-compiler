@@ -4,192 +4,6 @@
 */
 
 /*
-	Begin token functions
-*/
-
-function getNextToken()
-{
-	var token = DEFAULT_TOKEN;
-
-	if(_NextTokenIndex < _Tokens.length)
-	{
-		_CurrentTokenIndex = _NextTokenIndex;
-		token = _Tokens[_CurrentTokenIndex];
-		displayVerboseOutput(_Messager.currentTokenMessage());
-		displayVerboseOutput("Current Token: " + token + "<br />");
-		_NextTokenIndex++;
-	}//end if
-
-	return token;
-}//end getNextToken
-
-function consumeToken(tokenType)
-{
-	switch(tokenType)
-	{
-		case "digit":
-			displayVerboseOutput(_Messager.expectingDigit());
-
-			if((_CurrentToken >= 0) && (_CurrentToken <= 9))
-			{
-				displayVerboseOutput(_Messager.foundDigit());
-
-				displayOutput("[digit: " + _CurrentToken + " ]<br />");
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-				displayOutput("[Error: Not Digit: " + _CurrentToken + " ]<br />");
-				displayVerboseOutput(_Messager.errorMessage());
-				displayVerboseOutput(_Messager.notDigit());
-				displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-				displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			}//end else
-			break;
-		case "operator":
-			displayVerboseOutput(_Messager.expectingOperator());
-
-			if((_CurrentToken == "+") || (_CurrentToken == "-"))
-			{
-				displayVerboseOutput(_Messager.foundOperator());
-
-				displayOutput("[op: " + _CurrentToken + " ]<br />");
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-				displayOutput("[Error: Not Operator: " + _CurrentToken + " ]<br />");
-				displayVerboseOutput(_Messager.errorMessage());
-				displayVerboseOutput(_Messager.notOperator());
-				displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-				displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			}//end else
-			break;
-		case "id":
-			displayVerboseOutput(_Messager.expectingId());
-
-			var charCode = _CurrentToken.charCodeAt(0);
-
-			if((charCode >= 97) && (charCode <= 122))
-			{
-				// Letter is between a (Unicode 97)
-				// and z (Unicode 122)
-				displayVerboseOutput(_Messager.foundCharacter());
-
-				displayOutput("[id: " + _CurrentToken + " ]<br />");
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-				displayVerboseOutput(_Messager.errorMessage());
-				displayVerboseOutput(_Messager.notId());
-				displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-				displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			}//end else
-			break;
-		case "type":
-			displayVerboseOutput(_Messager.expectingType());
-
-			if((_CurrentToken == "int") || (_CurrentToken == "char"))
-			{
-				displayVerboseOutput(_Messager.foundType());
-
-				displayOutput("[type: " + _CurrentToken + " ]<br />");
-
-				_CurrentType = _CurrentToken;
-
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-				displayOutput("[Error: Not Type: " + _CurrentToken + " ]<br />");
-				displayVerboseOutput(_Messager.errorMessage());
-				displayVerboseOutput(_Messager.notType());
-				displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-				displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			}//end else
-			break;
-		case "character":
-			displayVerboseOutput(_Messager.expectingCharacter());
-
-			var charCode = _CurrentToken.charCodeAt(0);
-
-			if((charCode >= 97) && (charCode <= 122))
-			{
-				// Letter is between a (Unicode 97)
-				// and z (Unicode 122)
-				//displayOutput(_Messager.foundCharacter());
-
-				displayOutput("[char: " + _CurrentToken + " ]<br />");
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-				displayOutput("[Error: Not Character: " + _CurrentToken + " ]<br />");
-				displayVerboseOutput(_Messager.errorMessage());
-				displayVerboseOutput(_Messager.notCharacter());
-				displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-				displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			}//end else
-			break;
-		case "other":
-			displayVerboseOutput(_Messager.expectingOther(_ExpectedCharacter));
-
-			if(_CurrentToken == _ExpectedCharacter)
-			{
-				displayVerboseOutput(_Messager.foundOther(_ExpectedCharacter));
-				displayOutput("[literal: " + _CurrentToken + " ]<br />");
-
-				// Get the next token
-				_CurrentToken = getNextToken();
-			}//end if
-			else
-			{
-				_ErrorFound = true;
-
-				if(_CurrentToken == DEFAULT_TOKEN)
-				{
-					// No more tokens found, and we were
-					// expecting the $ character.
-					displayOutput("[Error: Missing End of File Marker: " +  END_OF_FILE + " ]<br />");
-					displayVerboseOutput(_Messager.errorMessage());
-					displayVerboseOutput(_Messager.notOther(_ExpectedCharacter));
-				}//end if
-				else
-				{
-					displayOutput("[Error: Not Expected Literal: " + _CurrentToken + " ]<br />");
-					displayVerboseOutput(_Messager.errorMessage());
-					displayVerboseOutput(_Messager.notOther(_ExpectedCharacter));
-					displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-					displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-				}//end else
-			}//end else
-			break;
-		default:
-			_ErrorFound = true;
-			displayOutput("[Error: Invalid token: " + _CurrentToken + " ]<br />");
-			displayVerboseOutput(_Messager.notValid());
-			displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
-			displayVerboseOutput("Token: " + _CurrentToken + "<br />");
-			break;
-	}//end switch
-}//end consumeToken
-
-/*
-	End token functions
-*/
-
-/*
 	Begin parser functions
 */
 
@@ -203,7 +17,7 @@ function parseProgram()
 		if(!_ErrorFound)
 		{
 			_ExpectedCharacter = END_OF_FILE;
-			consumeToken("other");
+			validateToken("other");
 
 			if(!_ErrorFound)
 			{
@@ -212,8 +26,8 @@ function parseProgram()
 					// Additional character encountered,
 					// past end of file. This is an error.
 					_ErrorFound = true;
-					displayOutput("[Error: Not End of Program: " + _CurrentToken + " ]<br />");
-					displayVerboseOutput(_Messager.errorMessage());
+					displayOutput("[Warning: Not End of Program: " + _CurrentToken + " ]<br />");
+					displayVerboseOutput(_Messager.warningMessage());
 					displayVerboseOutput(_Messager.notEndOfProgramMessage());
 					displayVerboseOutput("Position: " + _CurrentTokenIndex + "<br />");
 					displayVerboseOutput("Token: " + _CurrentToken + "<br />");
@@ -236,15 +50,93 @@ function parseStatement()
 	{
 		displayVerboseOutput(_Messager.parseStatement());
 
-		if(_CurrentToken == "P")
+		if(_CurrentToken == "if")
 		{
-			_ExpectedCharacter = "P";
-			consumeToken("other");
+			_ExpectedCharacter = "if";
+			validateToken("other");
 
 			if(!_ErrorFound)
 			{
 				_ExpectedCharacter = "(";
-				consumeToken("other");
+				validateToken("other");
+
+				if(!_ErrorFound)
+				{
+					parseBooleanExpression();
+
+					if(!_ErrorFound)
+					{
+						_ExpectedCharacter = ")";
+						validateToken("other");
+
+						if(!_ErrorFound)
+						{
+							_ExpectedCharacter = "{";
+							validateToken("other");
+
+							if(!_ErrorFound)
+							{
+								parseStatementList()
+
+								if(!_ErrorFound)
+								{
+									_ExpectedCharacter = "}";
+									validateToken("other");
+								}//end if
+							}//end if
+						}//end if
+					}//end if
+				}//end if
+			}//end if
+		}//end if
+		else if(_CurrentToken == "while")
+		{
+			_ExpectedCharacter = "while";
+			validateToken("other");
+
+			if(!_ErrorFound)
+			{
+				_ExpectedCharacter = "(";
+				validateToken("other");
+
+				if(!_ErrorFound)
+				{
+					parseBooleanExpression();
+
+					if(!_ErrorFound)
+					{
+						_ExpectedCharacter = ")";
+						validateToken("other");
+
+						if(!_ErrorFound)
+						{
+							_ExpectedCharacter = "{";
+							validateToken("other");
+
+							if(!_ErrorFound)
+							{
+								parseStatementList()
+
+								if(!_ErrorFound)
+								{
+									_ExpectedCharacter = "}";
+									validateToken("other");
+								}//end if
+							}//end if
+						}//end if
+					}//end if
+				}//end if
+			}//end if
+		}//end else if
+		else if(_CurrentToken == "print")
+		{
+			_ExpectedCharacter = "print";
+			validateToken("other");
+
+			if(!_ErrorFound)
+			{
+				_ExpectedCharacter = "(";
+				validateToken("other");
 
 				if(!_ErrorFound)
 				{
@@ -253,11 +145,11 @@ function parseStatement()
 					if(!_ErrorFound)
 					{
 						_ExpectedCharacter = ")";
-						consumeToken("other");
+						validateToken("other");
 					}//end if
 				}//end if
 			}//end if
-		}//end if
+		}//end else if
 		else if((_CurrentToken.length == 1) &&
 			   	(_CurrentToken >= "a") 		&&
 			   	(_CurrentToken <= "z")
@@ -268,24 +160,18 @@ function parseStatement()
 			if(!_ErrorFound)
 			{
 				_ExpectedCharacter = "=";
-				consumeToken("other");
+				validateToken("other");
 
 				if(!_ErrorFound)
 				{
-					_IsAssignment = true;
 					parseExpression();
-
-					if(!_ErrorFound)
-					{
-						_IsAssignment = false;
-					}//end if
 				}//end if
 			}//end if
 		}//end else if
 		else if(_CurrentToken == "{")
 		{
 			_ExpectedCharacter = "{";
-			consumeToken("other");
+			validateToken("other");
 
 			if(!_ErrorFound)
 			{
@@ -294,8 +180,8 @@ function parseStatement()
 				if(!_ErrorFound)
 				{
 					_ExpectedCharacter = "}";
-					consumeToken("other");
-				}
+					validateToken("other");
+				}//end if
 			}//end if
 		}//end else if
 		else
@@ -311,10 +197,11 @@ function parseStatementList()
 	{
 		displayVerboseOutput(_Messager.parseStatementList());
 
-		if(	(_CurrentToken == "P")			||
+		if(	(_CurrentToken == "print")		||
 			(_CurrentToken == "{") 			||
 			(_CurrentToken == "int") 		||
 			(_CurrentToken == "char")		||
+			(_CurrentToken == "bool")		||
 			( (_CurrentToken.length == 1) 	&&
 			  (_CurrentToken >= "a") 		&&
 			  (_CurrentToken <= "z")
@@ -337,6 +224,26 @@ function parseStatementList()
 	}//end if
 }//end parseStatementList
 
+function parseBooleanExpression()
+{
+	if(!_ErrorFound)
+	{
+		displayVerboseOutput(_Messager.parseBooleanExpression());
+
+		parseBooleanArgument();
+
+		if(!_ErrorFound)
+		{
+			validateToken("boolean operator");
+
+			if(!_ErrorFound)
+			{
+				parseBooleanArgument();
+			}//end if
+		}//end if
+	}//end if
+}//end parseBooleanExpression
+
 function parseExpression()
 {
 	if(!_ErrorFound)
@@ -349,7 +256,12 @@ function parseExpression()
 		}//end if
 		else if(_CurrentToken == "\"")
 		{
-			parseCharacterExpression();
+			parseStringExpression();
+		}//end else if
+		else if((_CurrentToken == "true") ||
+				(_CurrentToken == "false"))
+		{
+			validateToken("logical");
 		}//end else if
 		else
 		{
@@ -362,10 +274,9 @@ function parseIntegerExpression()
 {
 	if(!_ErrorFound)
 	{
-		_IsInteger = true;
 		displayVerboseOutput(_Messager.parseIntegerExpression());
 
-		consumeToken("digit");
+		validateToken("digit");
 
 		if(!_ErrorFound)
 		{
@@ -373,30 +284,25 @@ function parseIntegerExpression()
 			   (_CurrentToken == "-")
 			  )
 			{
-				consumeToken("operator");
+				validateToken("operator");
 
 				if(!_ErrorFound)
 				{
 					parseExpression();
-
-					if(!_ErrorFound)
-					{
-						_IsInteger = false;
-					}//end if
 				}//end if
 			}//end if
 		}//end if
 	}//end if
 }//end parseIntegerExpression
 
-function parseCharacterExpression()
+function parseStringExpression()
 {
 	if(!_ErrorFound)
 	{
-		displayVerboseOutput(_Messager.parseCharacterExpression());
+		displayVerboseOutput(_Messager.parseStringExpression());
 
 		_ExpectedCharacter = "\"";
-		consumeToken("other");
+		validateToken("other");
 
 		if(!_ErrorFound)
 		{
@@ -407,7 +313,7 @@ function parseCharacterExpression()
 			if(!_ErrorFound)
 			{
 				_ExpectedCharacter = "\"";
-				consumeToken("other");
+				validateToken("other");
 
 				if(!_ErrorFound)
 				{
@@ -416,7 +322,7 @@ function parseCharacterExpression()
 			}//end if
 		}//end if
 	}//end if
-}//end parseCharacterExpression
+}//end parseStringExpression
 
 function parseCharacterList()
 {
@@ -429,17 +335,28 @@ function parseCharacterList()
 			(_CurrentToken <= "z")
 		  )
 		{
-			consumeToken("character");
+			validateToken("character");
 
 			if(!_ErrorFound)
 			{
 				parseCharacterList();
 			}//end if
 		}//end if
+		else if(_CurrentToken == " ")
+		{
+			_ExpectedCharacter = " ";
+			validateToken("other");
+
+			if(!_ErrorFound)
+			{
+				parseCharacterList();
+			}//end if
+		}//end else if
 		else
 		{
 			// Do nothing
 			// Empty Character List
+			displayVerboseOutput(_Messager.emptyCharacterList());
 		}//end else
 	}//end if
 }//end parseCharacterList
@@ -450,18 +367,11 @@ function parseVariableDeclaration()
 	{
 		displayVerboseOutput(_Messager.parseVariableDeclaration());
 
-		_IsDeclaration = true;
-
-		consumeToken("type");
+		validateToken("type");
 
 		if(!_ErrorFound)
 		{
 			parseIdentifier();
-
-			if(!_ErrorFound)
-			{
-				_IsDeclaration = false;
-			}//end if
 		}//end if
 	}//end if
 }//end parseVariableDeclaration
@@ -470,18 +380,28 @@ function parseIdentifier()
 {
 	if(!_ErrorFound)
 	{
-		_IsIdentifier = true;
-
 		displayVerboseOutput(_Messager.parseIdentifier());
 
-		consumeToken("character");
-
-		if(!_ErrorFound)
-		{
-			_IsIdentifier = false;
-		}//end if
+		validateToken("character");
 	}//end if
 }//end parseIdentifier
+
+function parseBooleanArgument()
+{
+	if(!_ErrorFound)
+	{
+		displayVerboseOutput(_Messager.parseBooleanArgument());
+
+		if((_CurrentToken >= 0) && (_CurrentToken <= 9))
+		{
+			validateToken("digit");
+		}//end if
+		else
+		{
+			parseIdentifier();
+		}
+	}//end if
+}//end parseBooleanArgument
 
 /*
 	End parser functions
