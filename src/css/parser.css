@@ -1,0 +1,72 @@
+/* parser.css */
+
+body
+{
+	background-color: 	#C8C8C8;
+}
+
+.header
+{
+	color:			white;
+	font-weight: 	bold;
+}
+
+.message
+{
+	font-weight:		bold;
+	text-decoration:	blink;
+}
+
+#grammar_list
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+	width:			300px;
+	background: 	#C8C8C8;
+}
+
+#input
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+}
+
+#outputDiv
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+	height: 300px;
+	width: 300px;
+	background: white;
+	overflow: scroll;
+}
+
+#verboseOutputDiv
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+	height: 300px;
+	width: 300px;
+	background: white;
+	overflow: scroll;
+}
+
+#codeOutputDiv
+{
+	border-left:	2px solid #000000;
+	border-top:		2px solid #000000;
+	border-right:	3px solid #C1CCD9;
+	border-bottom:	3px solid #C1CCD9;
+	height: 300px;
+	width: 300px;
+	background: white;
+	overflow: scroll;
+}
