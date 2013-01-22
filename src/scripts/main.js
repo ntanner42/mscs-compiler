@@ -51,6 +51,10 @@ function selectMessager()
 	{
 		_Messager = new Bones();
 	}//end if
+	if(messagerSelection == "brief")
+	{
+		_Messager = new Brief();
+	}//end if
 	else if(messagerSelection == "cookie")
 	{
 		_Messager = new Cookie();

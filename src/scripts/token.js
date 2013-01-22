@@ -96,7 +96,10 @@ function validateToken(tokenType)
 		case "operator":
 			displayVerboseOutput(_Messager.expectingOperator());
 
-			if((_CurrentToken == "+") || (_CurrentToken == "-"))
+			if(	(_CurrentToken == "*") ||
+				(_CurrentToken == "/") ||
+				(_CurrentToken == "+") ||
+				(_CurrentToken == "-"))
 			{
 				displayVerboseOutput(_Messager.foundOperator());
 
@@ -162,8 +165,10 @@ function validateToken(tokenType)
 		case "type":
 			displayVerboseOutput(_Messager.expectingType());
 
-			if((_CurrentToken == "bool") || (_CurrentToken == "char")
-				|| (_CurrentToken == "int"))
+			if(	(_CurrentToken == "bool") ||
+				(_CurrentToken == "char") ||
+				(_CurrentToken == "int")  ||
+				(_CurrentToken == "string"))
 			{
 				displayVerboseOutput(_Messager.foundType());
 
