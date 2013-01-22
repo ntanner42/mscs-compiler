@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="scripts/tree.js"></script>
 		<!-- Messager script files -->
 		<script type="text/javascript" src="scripts/bones.js"></script>
+		<script type="text/javascript" src="scripts/brief.js"></script>
 		<script type="text/javascript" src="scripts/cookie.js"></script>
 		<script type="text/javascript" src="scripts/pirate.js"></script>
 		<script type="text/javascript" src="scripts/regular.js"></script>
@@ -91,7 +92,7 @@
 						<br />
 						BoolOp ::== == | !=
 						<br />
-						Op ::== + | -
+						Op ::== * | / | + | -
 						<br />
 						Logical ::== false | true
 						<br />
@@ -114,13 +115,16 @@
 						<option value="bones">
 							Bones
 						</option>
+						<option selected="selected" value="brief">
+							Brief
+						</option>
 						<option value="cookie">
 							Cookie Monster
 						</option>
 						<option value="pirate">
 							Pirate
 						</option>
-						<option selected="selected" value="regular">
+						<option value="regular">
 							Regular
 						</option>
 						<option value="yoda">

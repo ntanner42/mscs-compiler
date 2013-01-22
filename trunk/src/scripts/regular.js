@@ -5,15 +5,7 @@
 
 function Regular()
 {
-	/*
-		Functions to add:
-		expectingBooleanOperator
-		expectingKeyword
-		foundBooleanOperator
-		foundKeyword
-		notBooleanOperator
-		notKeyword
-	*/
+
 	this.currentTokenMessage 		= regularCurrentTokenMessage;
 	this.emptyCharacterList			= regularEmptyCharacterList;
 	this.emptyStatementList			= regularEmptyStatementList;

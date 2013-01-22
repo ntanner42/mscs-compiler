@@ -201,6 +201,7 @@ function parseStatementList()
 			(_CurrentToken == "{") 			||
 			(_CurrentToken == "int") 		||
 			(_CurrentToken == "char")		||
+			(_CurrentToken == "string")		||
 			(_CurrentToken == "bool")		||
 			( (_CurrentToken.length == 1) 	&&
 			  (_CurrentToken >= "a") 		&&
@@ -280,8 +281,10 @@ function parseIntegerExpression()
 
 		if(!_ErrorFound)
 		{
-			if((_CurrentToken == "+") ||
-			   (_CurrentToken == "-")
+			if(	(_CurrentToken == "*") ||
+				(_CurrentToken == "/") ||
+				(_CurrentToken == "+") ||
+			   	(_CurrentToken == "-")
 			  )
 			{
 				validateToken("operator");
