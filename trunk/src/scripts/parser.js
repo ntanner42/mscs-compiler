@@ -24,7 +24,7 @@ function parseProgram()
 				if(_CurrentToken != DEFAULT_TOKEN)
 				{
 					// Additional character encountered,
-					// past end of file. This is an error.
+					// past end of file. This is an warning.
 					_ErrorFound = true;
 					displayOutput("[Warning: Not End of Program: " + _CurrentToken + " ]<br />");
 					displayVerboseOutput(_Messager.warningMessage());
