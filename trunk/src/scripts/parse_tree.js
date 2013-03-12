@@ -1,16 +1,32 @@
 /*
-	Filename:	parser.js
-	Function:	Contains the parser functions.
+	Filename:	parse_tree.js
+	Function:	Contains the parse tree functions.
 */
 
 /*
-	Begin parser functions
+	Begin parse tree utility functions
+*/
+function pushParseTreeToken()
+{
+
+}
+
+function pushParseTreeFragment(fragment)
+{
+
+}
+/*
+	End parse tree utility functions
+*/
+
+/*
+	Begin parse tree functions
 */
 
 function parseTreeProgram()
 {
 	parseTreeStatement();
-
+	pushParseTreeToken();
 	//_ExpectedCharacter = END_OF_FILE;
 	//pushParseTreeToken("other");
 }//end parseTreeProgram
