@@ -62,14 +62,29 @@ parseTreeBooleanExpression
 parseTreeIdentifier
 parseTreeVariableDeclaration
 */
-var XML_PROGRAM_START 				= "";
-var XML_PROGRAM_END 				= "";
-var XML_STATEMENT_START				= "";
-var XML_STATEMENT_END 				= "";
-var XML_STATEMENT_LIST_START		= "";
-var XML_STATEMENT_LIST_END			= "";
-var XML_EXPRESSION_START			= "";
-var XML_EXPRESSION_END 				= "";
+var XML_PROGRAM_START 				= "<prgm>";
+var XML_PROGRAM_END 				= "</prgm>";
+var XML_STATEMENT_START				= "<stmt>";
+var XML_STATEMENT_END 				= "</stmt>";
+var XML_STATEMENT_LIST_START		= "<stmtlist>";
+var XML_STATEMENT_LIST_END			= "</stmtlist>";
+var XML_EXPRESSION_START			= "<expr>";
+var XML_EXPRESSION_END 				= "</expr>";
+var XML_BOOL_EXPRESSION_START		= "<boolexpr>";
+var XML_BOOL_EXPRESSION_END			= "</boolexpr>";
+var XML_INT_EXPRESSION_START		= "<intexpr>";
+var XML_INT_EXPRESSION_END			= "</intexpr>";
+var XML_STRING_EXPRESSION_START		= "<strexpr>";
+var XML_STRING_EXPRESSION_END		= "<strexpr>";
+var XML_CHARACTER_LIST_START		= "<charlist>";
+var XML_CHARACTER_LIST_END			= "</charlist>";
+var XML_VAR_DECLARATION_START		= "<vardecl>";
+var XML_VAR_DECLARATION_END 		= "</vardecl>";
+var XML_IDENTIFIER_START			= "<identifier>";
+var XML_IDENTIFIER_END 				= "</identifier>";
+var XML_BOOLEAN_ARGUMENT_START		= "<boolarg>";
+var XML_BOOLEAN_ARGUMENT_END		= "</boolarg>";
+
 // Token global variables
 var _CurrentToken 					= "";
 var	_CurrentTokenIndex				= 0;
@@ -82,14 +97,13 @@ var _InsideCharacterList			= false;
 var _Messager 						= null;
 
 // Parse tree global variables
-var _CurrentParseTreeToken 			= "";
 var	_CurrentParseTreeTokenIndex		= 0;
 
 // Shared global variables
 var _Tokens							= null;
 var _SymbolTable					= null;
-var _ParseTree						= null;
-var _SyntaxTree						= null;
+var _ParseTree						= "";
+var _SyntaxTree						= "";
 
 // Code generatation global variables
 var _CodeArray						= null;

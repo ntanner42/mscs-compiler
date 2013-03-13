@@ -8,12 +8,21 @@
 */
 function pushParseTreeToken()
 {
+	// Add the current token to the parse tree.
+	var temp = _ParseTree.concat(_Tokens[_CurrentParseTreeTokenIndex]);
 
+	// Assign the temporary string back to the parse tree.
+	_ParseTree = temp;
+	_CurrentParseTreeTokenIndex++;
 }
 
 function pushParseTreeFragment(fragment)
 {
+	// Add the fragment to the parse tree.
+	var temp = _ParseTree.concat(fragment);
 
+	// Assign the temporary string back to the parse tree.
+	_ParseTree = temp;
 }
 /*
 	End parse tree utility functions
@@ -25,14 +34,17 @@ function pushParseTreeFragment(fragment)
 
 function parseTreeProgram()
 {
+	pushParseTreeFragment();
 	parseTreeStatement();
 	pushParseTreeToken();
 	//_ExpectedCharacter = END_OF_FILE;
-	//pushParseTreeToken("other");
+	pushParseTreeToken();
+	pushParseTreeFragment();
 }//end parseTreeProgram
 
 function parseTreeStatement()
 {
+	pushParseTreeFragment();
 	if(_CurrentToken == "if")
 	{
 		_ExpectedCharacter = "if";
@@ -114,6 +126,7 @@ function parseTreeStatement()
 	{
 		parseTreeVariableDeclaration();
 	}//end else
+	pushParseTreeFragment();
 }//end parseTreeStatement
 
 function parseTreeStatementList()
