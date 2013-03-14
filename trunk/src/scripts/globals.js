@@ -54,14 +54,6 @@ var TYPE							= "Type";
 var SPACE							= "Space";
 */
 
-/*
-parseTreeProgram
-parseTreeStatement
-parseTreeStatementList
-parseTreeBooleanExpression
-parseTreeIdentifier
-parseTreeVariableDeclaration
-*/
 var XML_PROGRAM_START 				= "<prgm>";
 var XML_PROGRAM_END 				= "</prgm>";
 var XML_STATEMENT_START				= "<stmt>";
@@ -97,6 +89,7 @@ var _InsideCharacterList			= false;
 var _Messager 						= null;
 
 // Parse tree global variables
+var	_CurrentParseTreeToken			= "";
 var	_CurrentParseTreeTokenIndex		= 0;
 
 // Shared global variables

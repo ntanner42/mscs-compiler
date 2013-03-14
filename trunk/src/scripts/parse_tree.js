@@ -34,112 +34,133 @@ function pushParseTreeFragment(fragment)
 
 function parseTreeProgram()
 {
-	pushParseTreeFragment();
+	pushParseTreeFragment(XML_PROGRAM_START);
 	parseTreeStatement();
-	pushParseTreeToken();
+	//pushParseTreeToken();
 	//_ExpectedCharacter = END_OF_FILE;
 	pushParseTreeToken();
-	pushParseTreeFragment();
+	pushParseTreeFragment(XML_PROGRAM_END);
 }//end parseTreeProgram
 
 function parseTreeStatement()
 {
-	pushParseTreeFragment();
-	if(_CurrentToken == "if")
-	{
-		_ExpectedCharacter = "if";
-		validateToken("other");
+	pushParseTreeFragment(XML_STATEMENT_START);
 
-		_ExpectedCharacter = "(";
-		validateToken("other");
+	if(_CurrentParseTreeToken == "if")
+	{
+		//_ExpectedCharacter = "if";
+		//validateToken("other");
+		pushParseTreeToken();
+
+		//_ExpectedCharacter = "(";
+		//validateToken("other");
+		pushParseTreeToken();
 
 		parseTreeBooleanExpression();
 
-		_ExpectedCharacter = ")";
-		validateToken("other");
+		//_ExpectedCharacter = ")";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		_ExpectedCharacter = "{";
-		validateToken("other");
+		//_ExpectedCharacter = "{";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		parseTreeStatementList()
+		parseTreeStatementList();
 
-		_ExpectedCharacter = "}";
-		validateToken("other");
+		//_ExpectedCharacter = "}";
+		//validateToken("other");
+		pushParseTreeToken();
 	}//end if
-	else if(_CurrentToken == "while")
+	else if(_CurrentParseTreeToken == "while")
 	{
-		_ExpectedCharacter = "while";
-		validateToken("other");
+		//_ExpectedCharacter = "while";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		_ExpectedCharacter = "(";
-		validateToken("other");
+		//_ExpectedCharacter = "(";
+		//validateToken("other");
+		pushParseTreeToken();
 
 		parseTreeBooleanExpression();
 
-		_ExpectedCharacter = ")";
-		validateToken("other");
+		//_ExpectedCharacter = ")";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		_ExpectedCharacter = "{";
-		validateToken("other");
+		//_ExpectedCharacter = "{";
+		//validateToken("other");
+		pushParseTreeToken();
 
 		parseTreeStatementList()
 
-		_ExpectedCharacter = "}";
-		validateToken("other");
+		//_ExpectedCharacter = "}";
+		//validateToken("other");
+		pushParseTreeToken();
 	}//end else if
-	else if(_CurrentToken == "print")
+	else if(_CurrentParseTreeToken == "print")
 	{
-		_ExpectedCharacter = "print";
-		validateToken("other");
+		//_ExpectedCharacter = "print";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		_ExpectedCharacter = "(";
-		validateToken("other");
+		//_ExpectedCharacter = "(";
+		//validateToken("other");
+		pushParseTreeToken();
 
 		parseTreeExpression();
 
-		_ExpectedCharacter = ")";
-		validateToken("other");
+		//_ExpectedCharacter = ")";
+		//validateToken("other");
+		pushParseTreeToken();
 	}//end else if
-	else if((_CurrentToken.length == 1) &&
-			(_CurrentToken >= "a") 		&&
-			(_CurrentToken <= "z")
+	else if((_CurrentParseTreeToken.length == 1) &&
+			(_CurrentParseTreeToken >= "a") 		&&
+			(_CurrentParseTreeToken <= "z")
 		   )
 	{
 		parseTreeIdentifier();
 
-		_ExpectedCharacter = "=";
-		validateToken("other");
+		//_ExpectedCharacter = "=";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		parseExpression();
+		parseTreeExpression();
 	}//end else if
 	else if(_CurrentToken == "{")
 	{
-		_ExpectedCharacter = "{";
-		validateToken("other");
 
-		parseTreeStatementList()
+		//_ExpectedCharacter = "{";
+		//validateToken("other");
+		pushParseTreeToken();
 
-		_ExpectedCharacter = "}";
-		validateToken("other");
+		parseTreeStatementList();
+
+		//_ExpectedCharacter = "}";
+		//validateToken("other");
+		pushParseTreeToken();
 	}//end else if
 	else
 	{
 		parseTreeVariableDeclaration();
 	}//end else
-	pushParseTreeFragment();
+
+	pushParseTreeFragment(XML_STATEMENT_END);
 }//end parseTreeStatement
 
 function parseTreeStatementList()
 {
-	if(	(_CurrentToken == "print")		||
-		(_CurrentToken == "{") 			||
-		(_CurrentToken == "int") 		||
-		(_CurrentToken == "char")		||
-		(_CurrentToken == "string")		||
-		(_CurrentToken == "bool")		||
-		( (_CurrentToken.length == 1) 	&&
-		  (_CurrentToken >= "a") 		&&
-		  (_CurrentToken <= "z")
+	pushParseTreeFragment(XML_STATEMENT_LIST_START);
+
+	if(	(_CurrentParseTreeToken == "print")		||
+		(_CurrentParseTreeToken == "{") 		||
+		(_CurrentParseTreeToken == "int") 		||
+		(_CurrentParseTreeToken == "char")		||
+		(_CurrentParseTreeToken == "string")	||
+		(_CurrentParseTreeToken == "bool")		||
+		( (_CurrentParseTreeToken.length == 1) 	&&
+		  (_CurrentParseTreeToken >= "a") 		&&
+		  (_CurrentParseTreeToken <= "z")
 		)
 	  )
 	{
@@ -147,111 +168,154 @@ function parseTreeStatementList()
 
 		parseTreeStatementList();
 	}//end if
+
+	pushParseTreeFragment(XML_STATEMENT_LIST_END);
 }//end parseTreeStatementList
 
 function parseTreeBooleanExpression()
 {
-	parseTreeBooleanArgument();
-
-	validateToken("boolean operator");
+	pushParseTreeFragment(XML_BOOL_EXPRESSION_START);
 
 	parseTreeBooleanArgument();
+
+	//validateToken("boolean operator");
+	pushParseTreeToken();
+
+	parseTreeBooleanArgument();
+	pushParseTreeFragment(XML_BOOL_EXPRESSION_END);
 }//end parseTreeBooleanExpression
 
 function parseTreeExpression()
 {
-	if((_CurrentToken >= 0) && (_CurrentToken <= 9))
+	pushParseTreeFragment(XML_EXPRESSION_START);
+
+	if((_CurrentParseTreeToken >= 0) && (_CurrentParseTreeToken <= 9))
 	{
 		parseTreeIntegerExpression();
 	}//end if
-	else if(_CurrentToken == "\"")
+	else if(_CurrentParseTreeToken == "\"")
 	{
 		parseTreeStringExpression();
 	}//end else if
-	else if((_CurrentToken == "true") ||
-			(_CurrentToken == "false"))
+	else if((_CurrentParseTreeToken == "true") ||
+			(_CurrentParseTreeToken == "false"))
 	{
-		validateToken("logical");
+		//validateToken("logical");
+		pushParseTreeToken();
 	}//end else if
 	else
 	{
 		parseTreeIdentifier();
 	}//end else
+
+	pushParseTreeFragment(XML_EXPRESSION_END);
 }//end parseTreeExpression
 
 function parseTreeIntegerExpression()
 {
-	validateToken("digit");
+	pushParseTreeFragment(XML_INT_EXPRESSION_START);
 
-	if(	(_CurrentToken == "*") ||
-		(_CurrentToken == "/") ||
-		(_CurrentToken == "+") ||
-		(_CurrentToken == "-")
+	//validateToken("digit");
+	pushParseTreeToken();
+
+	if(	(_CurrentParseTreeToken == "*") ||
+		(_CurrentParseTreeToken == "/") ||
+		(_CurrentParseTreeToken == "+") ||
+		(_CurrentParseTreeToken == "-")
 	  )
 	{
-		validateToken("operator");
+		//validateToken("operator");
+		pushParseTreeToken();
 
 		parseTreeExpression();
 	}//end if
+
+	pushParseTreeFragment(XML_INT_EXPRESSION_END);
 }//end parseTreeIntegerExpression
 
 function parseTreeStringExpression()
 {
-	_ExpectedCharacter = "\"";
-	validateToken("other");
+	pushParseTreeFragment(XML_STRING_EXPRESSION_START);
 
-	_InsideCharacterList = true;
+	//_ExpectedCharacter = "\"";
+	//validateToken("other");
+	pushParseTreeToken();
+
+	//_InsideCharacterList = true;
 
 	parseCharacterList();
 
-	_ExpectedCharacter = "\"";
-	validateToken("other");
+	//_ExpectedCharacter = "\"";
+	//validateToken("other");
+	pushParseTreeToken();
 
-	_InsideCharacterList = false;
+	//_InsideCharacterList = false;
+	pushParseTreeFragment(XML_STRING_EXPRESSION_END);
 }//end parseTreeStringExpression
 
 function parseTreeCharacterList()
 {
-	if( (_CurrentToken.length == 1) &&
-		(_CurrentToken >= "a")		&&
-		(_CurrentToken <= "z")
+	pushParseTreeFragment(XML_CHARACTER_LIST_START);
+
+	if( (_CurrentParseTreeToken.length == 1) &&
+		(_CurrentParseTreeToken >= "a")		&&
+		(_CurrentParseTreeToken <= "z")
 	  )
 	{
-		validateToken("character");
+		//validateToken("character");
+		pushParseTreeToken();
 
 		parseTreeCharacterList();
 	}//end if
-	else if(_CurrentToken == " ")
+	else if(_CurrentParseTreeToken == " ")
 	{
-		_ExpectedCharacter = " ";
-		validateToken("other");
+		//_ExpectedCharacter = " ";
+		//validateToken("other");
+		pushParseTreeToken();
 
 		parseTreeCharacterList();
 	}//end else if
+
+	pushParseTreeFragment(XML_CHARACTER_LIST_END);
 }//end parseTreeCharacterList
 
 function parseTreeVariableDeclaration()
 {
-	validateToken("type");
+	pushParseTreeFragment(XML_VAR_DECLARATION_START);
+
+	//validateToken("type");
+	pushParseTreeToken();
 
 	parseTreeIdentifier();
+
+	pushParseTreeFragment(XML_VAR_DECLARATION_END);
 }//end parseTreeVariableDeclaration
 
 function parseTreeIdentifier()
 {
-	validateToken("character");
+	pushParseTreeFragment(XML_IDENTIFIER_START);
+
+	//validateToken("character");
+	pushParseTreeToken();
+
+	pushParseTreeFragment(XML_IDENTIFIER_END);
 }//end parseTreeIdentifier
 
 function parseTreeBooleanArgument()
 {
-	if((_CurrentToken >= 0) && (_CurrentToken <= 9))
+	pushParseTreeFragment(XML_BOOLEAN_ARGUMENT_START);
+
+	if((_CurrentParseTreeToken >= 0) && (_CurrentParseTreeToken <= 9))
 	{
-		validateToken("digit");
+		//validateToken("digit");
+		pushParseTreeToken();
 	}//end if
 	else
 	{
 		parseTreeIdentifier();
 	}
+
+	pushParseTreeFragment(XML_BOOLEAN_ARGUMENT_END);
 }//end parseTreeBooleanArgument
 
 /*
